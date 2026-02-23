@@ -32,12 +32,13 @@ export function useWeeklyReset() {
     const currentWeek = getCurrentWeekYear();
     const previousWeek = getPreviousWeekYear();
 
-    // Verificar se já existem tarefas para esta semana
+    // Verificar se já existem tarefas (não-agendadas) para esta semana
     const { data: currentTasks } = await supabase
       .from("tasks")
       .select("id")
       .eq("user_id", user.id)
       .eq("week_year", currentWeek)
+      .neq("type", "scheduled")
       .limit(1);
 
     // Se já existem tarefas para esta semana, não fazer nada
@@ -60,6 +61,14 @@ export function useWeeklyReset() {
     let removed = 0;
 
     for (const task of prevTasks) {
+      // Tarefas agendadas não migram — são fixas na data
+      if (task.type === "scheduled") continue;
+
+      // Tarefa está totalmente concluída se todos os dias foram marcados
+      const allDaysCompleted =
+        task.days.length > 0 &&
+        task.days.every((d: number) => (task.completed_days || []).includes(d));
+
       if (task.type === "recurrent") {
         // Recorrentes: sempre voltam como pendentes
         newTasks.push({
@@ -68,26 +77,28 @@ export function useWeeklyReset() {
           title: task.title,
           type: "recurrent",
           days: task.days,
-          completed: false,
+          completed_days: [],
           week_year: currentWeek,
           carry_over: false,
+          scheduled_date: null,
         });
         recurrentReset++;
       } else if (task.type === "oneoff") {
-        if (task.completed) {
-          // Pontuais concluídas: somem
+        if (allDaysCompleted) {
+          // Pontuais totalmente concluídas: somem
           removed++;
         } else {
-          // Pontuais não concluídas: carry-over
+          // Pontuais não concluídas (total ou parcialmente): carry-over
           newTasks.push({
             user_id: user.id,
             category_id: task.category_id,
             title: task.title,
             type: "oneoff",
             days: task.days,
-            completed: false,
+            completed_days: [],
             week_year: currentWeek,
             carry_over: true,
+            scheduled_date: null,
           });
           carryOver++;
         }

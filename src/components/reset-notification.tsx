@@ -15,13 +15,19 @@ export function ResetNotification({
 }: ResetNotificationProps) {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
-      <div className="glass rounded-2xl border-[var(--accent)]/20 p-4">
+      <div
+        className="glass rounded-xl p-4"
+        style={{ borderColor: "rgba(from var(--th-accent) r g b / 0.2)" }}
+      >
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-sm font-bold text-[var(--accent)]">
+            <h3
+              className="text-sm font-bold"
+              style={{ color: "var(--th-accent)" }}
+            >
               Nova semana iniciada
             </h3>
-            <ul className="mt-2 space-y-1 text-xs text-slate-400">
+            <ul className="mt-2 space-y-1 text-xs" style={{ color: "var(--th-text-sub)" }}>
               {recurrentReset > 0 && (
                 <li>
                   {recurrentReset} tarefa{recurrentReset > 1 ? "s" : ""}{" "}
@@ -46,7 +52,8 @@ export function ResetNotification({
           </div>
           <button
             onClick={onDismiss}
-            className="rounded-lg p-1 text-slate-600 transition-colors hover:bg-white/5 hover:text-slate-400"
+            className="rounded-lg p-1 transition-colors"
+            style={{ color: "var(--th-text-muted)" }}
           >
             <svg
               className="h-4 w-4"

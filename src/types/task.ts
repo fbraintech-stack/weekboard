@@ -1,4 +1,4 @@
-export type TaskType = "recurrent" | "oneoff";
+export type TaskType = "recurrent" | "oneoff" | "scheduled";
 
 export type DayOfWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -23,13 +23,14 @@ export interface Category {
 export interface Task {
   id: string;
   user_id: string;
-  category_id: string;
+  category_id: string | null;
   title: string;
   type: TaskType;
   days: DayOfWeek[];
-  completed: boolean;
+  completed_days: number[];
   week_year: string;
   carry_over: boolean;
+  scheduled_date: string | null;
   created_at: string;
   updated_at: string;
 }
