@@ -126,8 +126,8 @@ export function WeekBoard() {
       fromDay: DayOfWeek;
     };
 
-    // FR-002: drag & drop apenas para tarefas pontuais
-    if (task.type !== "oneoff") return;
+    // Drag permitido para todas as tarefas da semana (recorrentes e pontuais)
+    if (task.type === "scheduled") return;
 
     let toDay: DayOfWeek | null = null;
     const overId = over.id.toString();
