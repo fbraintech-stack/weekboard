@@ -276,7 +276,6 @@ export function WeekBoard() {
                   tasks={filteredWeekTasks}
                   categories={categories}
                   onEditTask={setEditingTask}
-                  isDragActive={!!activeTask}
                 />
               ))}
             </div>
@@ -288,7 +287,6 @@ export function WeekBoard() {
                 tasks={filteredWeekTasks}
                 categories={categories}
                 onEditTask={setEditingTask}
-                isDragActive={!!activeTask}
               />
             </div>
 

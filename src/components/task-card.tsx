@@ -33,8 +33,8 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
   });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
+    transform: isDragging ? undefined : CSS.Transform.toString(transform),
+    transition: isDragging ? "none" : transition,
   };
 
   return (
