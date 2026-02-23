@@ -116,6 +116,10 @@ export function WeekBoard() {
     setActiveTask(task);
   }
 
+  function handleDragCancel() {
+    setActiveTask(null);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
     setActiveTask(null);
     const { active, over } = event;
@@ -253,6 +257,7 @@ export function WeekBoard() {
             collisionDetection={pointerWithin}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
           >
             {/* Seletor de dia — mobile (droppable para drag entre dias) */}
             <div className="mb-4 flex gap-1.5 overflow-x-auto sm:hidden">
@@ -291,11 +296,15 @@ export function WeekBoard() {
             </div>
 
             {/* Drag overlay */}
-            <DragOverlay>
+            <DragOverlay dropAnimation={null}>
               {activeTask && (
                 <div
                   className="rounded-xl glass p-2.5 pl-3.5"
-                  style={{ boxShadow: "var(--th-shadow-elevated)" }}
+                  style={{
+                    boxShadow: "var(--th-shadow-elevated)",
+                    width: "max-content",
+                    maxWidth: "180px",
+                  }}
                 >
                   <p className="text-xs" style={{ color: "var(--th-text)" }}>
                     {activeTask.title}
