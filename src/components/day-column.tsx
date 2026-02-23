@@ -1,7 +1,6 @@
 "use client";
 
 import { useDroppable } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { DAY_LABELS } from "@/types/task";
 import type { DayOfWeek, Task, Category } from "@/types/task";
 import { getCurrentDayOfWeek } from "@/lib/utils";
@@ -108,31 +107,26 @@ export function DayColumn({ day, tasks, categories, onEditTask }: DayColumnProps
         </div>
       )}
 
-      <SortableContext
-        items={sortedTasks.map((t) => `${t.id}-${day}`)}
-        strategy={verticalListSortingStrategy}
-      >
-        <div className="flex flex-1 flex-col gap-2 max-h-[500px] sm:max-h-[420px] overflow-y-auto">
-          {sortedTasks.length === 0 ? (
-            <p
-              className="mt-8 text-center text-[11px]"
-              style={{ color: isOver ? "var(--th-accent)" : "var(--th-text-ghost)" }}
-            >
-              {isOver ? "Solte aqui" : "Sem tarefas"}
-            </p>
-          ) : (
-            sortedTasks.map((task) => (
-              <TaskCard
-                key={`${task.id}-${day}`}
-                task={task}
-                day={day}
-                category={categories.find((c) => c.id === task.category_id)}
-                onEdit={onEditTask}
-              />
-            ))
-          )}
-        </div>
-      </SortableContext>
+      <div className="flex flex-1 flex-col gap-2 max-h-[500px] sm:max-h-[420px] overflow-y-auto">
+        {sortedTasks.length === 0 ? (
+          <p
+            className="mt-8 text-center text-[11px]"
+            style={{ color: isOver ? "var(--th-accent)" : "var(--th-text-ghost)" }}
+          >
+            {isOver ? "Solte aqui" : "Sem tarefas"}
+          </p>
+        ) : (
+          sortedTasks.map((task) => (
+            <TaskCard
+              key={`${task.id}-${day}`}
+              task={task}
+              day={day}
+              category={categories.find((c) => c.id === task.category_id)}
+              onEdit={onEditTask}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }
