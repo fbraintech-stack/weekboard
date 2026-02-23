@@ -6,6 +6,7 @@ import {
   DragOverlay,
   PointerSensor,
   TouchSensor,
+  closestCenter,
   useDroppable,
   useSensor,
   useSensors,
@@ -249,6 +250,7 @@ export function WeekBoard() {
         ) : (
           <DndContext
             sensors={sensors}
+            collisionDetection={closestCenter}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
