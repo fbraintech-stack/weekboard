@@ -14,32 +14,31 @@ export function ResetNotification({
   onDismiss,
 }: ResetNotificationProps) {
   return (
-    <div className="mx-auto mb-4 max-w-7xl px-4 sm:px-6">
-      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="glass rounded-2xl border-[var(--accent)]/20 p-4">
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-sm font-bold text-blue-800">
-              Nova semana iniciada!
+            <h3 className="text-sm font-bold text-[var(--accent)]">
+              Nova semana iniciada
             </h3>
-            <ul className="mt-2 space-y-1 text-xs text-blue-700">
+            <ul className="mt-2 space-y-1 text-xs text-slate-400">
               {recurrentReset > 0 && (
                 <li>
-                  &#128260; {recurrentReset} tarefa{recurrentReset > 1 ? "s" : ""}{" "}
+                  {recurrentReset} tarefa{recurrentReset > 1 ? "s" : ""}{" "}
                   recorrente{recurrentReset > 1 ? "s" : ""} resetada
                   {recurrentReset > 1 ? "s" : ""}
                 </li>
               )}
               {carryOver > 0 && (
                 <li>
-                  &#8594; {carryOver} tarefa{carryOver > 1 ? "s" : ""} pontua
+                  {carryOver} tarefa{carryOver > 1 ? "s" : ""} pontua
                   {carryOver > 1 ? "is" : "l"} pendente
                   {carryOver > 1 ? "s" : ""} mantida{carryOver > 1 ? "s" : ""}
                 </li>
               )}
               {removed > 0 && (
                 <li>
-                  &#10003; {removed} tarefa{removed > 1 ? "s" : ""} pontua
-                  {removed > 1 ? "is" : "l"} concluída
+                  {removed} tarefa{removed > 1 ? "s" : ""} concluída
                   {removed > 1 ? "s" : ""} removida{removed > 1 ? "s" : ""}
                 </li>
               )}
@@ -47,7 +46,7 @@ export function ResetNotification({
           </div>
           <button
             onClick={onDismiss}
-            className="text-blue-400 hover:text-blue-600"
+            className="rounded-lg p-1 text-slate-600 transition-colors hover:bg-white/5 hover:text-slate-400"
           >
             <svg
               className="h-4 w-4"

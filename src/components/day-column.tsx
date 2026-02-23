@@ -19,37 +19,47 @@ export function DayColumn({ day, tasks, categories }: DayColumnProps) {
 
   return (
     <div
-      className={`flex min-h-[200px] flex-col rounded-xl border-2 bg-white p-3 transition-colors sm:min-h-[350px] ${
+      className={`flex min-h-[220px] flex-col rounded-2xl p-3 transition-all duration-300 sm:min-h-[350px] ${
         isToday
-          ? "border-blue-400 shadow-sm shadow-blue-100"
-          : "border-slate-200"
+          ? "glass glow-accent border-[var(--accent)]/20"
+          : "glass"
       }`}
     >
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2
-            className={`text-sm font-bold ${
-              isToday ? "text-blue-600" : "text-slate-700"
+            className={`text-sm font-bold tracking-wide ${
+              isToday ? "text-[var(--accent)]" : "text-slate-400"
             }`}
           >
             {DAY_LABELS[day]}
           </h2>
           {isToday && (
-            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
+            <span className="rounded-full bg-[var(--accent-muted)] px-2 py-0.5 text-[10px] font-bold tracking-wider text-[var(--accent)]">
               HOJE
             </span>
           )}
         </div>
-        <span className={`text-xs font-medium ${totalCount > 0 && completedCount === totalCount ? "text-green-500" : "text-slate-400"}`}>
+        <span
+          className={`text-xs font-mono ${
+            totalCount > 0 && completedCount === totalCount
+              ? "text-emerald-400/70"
+              : "text-slate-600"
+          }`}
+        >
           {completedCount}/{totalCount}
         </span>
       </div>
 
       {/* Progress mini bar */}
       {totalCount > 0 && (
-        <div className="mb-2 h-1 w-full overflow-hidden rounded-full bg-slate-100">
+        <div className="mb-3 h-[2px] w-full overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full rounded-full bg-blue-500 transition-all duration-300"
+            className={`h-full rounded-full transition-all duration-500 ${
+              completedCount === totalCount
+                ? "bg-emerald-400/50"
+                : "bg-[var(--accent)]/40"
+            }`}
             style={{ width: `${(completedCount / totalCount) * 100}%` }}
           />
         </div>
@@ -57,8 +67,8 @@ export function DayColumn({ day, tasks, categories }: DayColumnProps) {
 
       <div className="flex flex-1 flex-col gap-2">
         {dayTasks.length === 0 ? (
-          <p className="mt-4 text-center text-xs text-slate-300">
-            Nenhuma tarefa
+          <p className="mt-8 text-center text-[11px] text-slate-700">
+            Sem tarefas
           </p>
         ) : (
           dayTasks.map((task) => (

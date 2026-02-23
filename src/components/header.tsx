@@ -13,26 +13,26 @@ export function Header({ onCreateTask }: HeaderProps) {
   const { signOut } = useAuth();
 
   return (
-    <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-10 glass border-t-0 border-x-0">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
-            Week<span className="text-blue-600">Board</span>
+          <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+            Week<span className="text-[var(--accent)]">Board</span>
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="mt-0.5 text-[11px] tracking-wide text-slate-500">
             {weekYear} &middot; {dateRange}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={onCreateTask}
-            className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-blue-700 sm:px-4 sm:text-sm"
+            className="rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white transition-all hover:brightness-110 sm:text-sm"
           >
             + Tarefa
           </button>
           <button
             onClick={signOut}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-500 transition-colors hover:bg-slate-50"
+            className="glass glass-hover rounded-xl px-3 py-2 text-xs text-slate-400 transition-all hover:text-white"
             title="Sair"
           >
             Sair

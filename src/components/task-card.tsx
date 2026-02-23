@@ -14,30 +14,30 @@ export function TaskCard({ task, category }: TaskCardProps) {
 
   return (
     <div
-      className={`group relative rounded-lg border p-2.5 transition-all ${
+      className={`group relative rounded-xl border transition-all duration-200 ${
         task.completed
-          ? "border-slate-100 bg-slate-50 opacity-60"
-          : "border-slate-200 bg-white hover:shadow-sm"
+          ? "border-transparent bg-white/[0.02] opacity-50"
+          : "glass glass-hover"
       }`}
     >
       {/* Faixa de cor da categoria */}
       {category && (
         <div
-          className="absolute left-0 top-0 h-full w-1 rounded-l-lg"
-          style={{ backgroundColor: category.color }}
+          className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full"
+          style={{ backgroundColor: category.color, opacity: 0.7 }}
         />
       )}
 
-      <div className="flex items-start gap-2 pl-2">
+      <div className="flex items-start gap-2.5 p-2.5 pl-3.5">
         {/* Checkbox */}
         <button
           onClick={() =>
             toggleTask.mutate({ id: task.id, completed: !task.completed })
           }
-          className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
+          className={`mt-0.5 flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-md border transition-all duration-200 ${
             task.completed
-              ? "border-green-500 bg-green-500 text-white"
-              : "border-slate-300 hover:border-blue-400"
+              ? "border-emerald-400/50 bg-emerald-400/20 text-emerald-300"
+              : "border-white/20 hover:border-[var(--accent)]/50 hover:bg-[var(--accent-muted)]"
           }`}
         >
           {task.completed && (
@@ -52,27 +52,30 @@ export function TaskCard({ task, category }: TaskCardProps) {
           <p
             className={`text-xs leading-snug ${
               task.completed
-                ? "text-slate-400 line-through"
-                : "text-slate-700"
+                ? "text-slate-600 line-through"
+                : "text-slate-200"
             }`}
           >
             {task.title}
           </p>
-          <div className="mt-1 flex items-center gap-1">
+          <div className="mt-1.5 flex items-center gap-1.5">
             {task.type === "oneoff" && (
-              <span className="text-[10px] text-amber-500" title="Pontual">
-                &#9889;
+              <span className="rounded-md bg-amber-400/10 px-1.5 py-0.5 text-[10px] text-amber-300/70">
+                pontual
               </span>
             )}
             {task.carry_over && (
-              <span className="text-[10px] text-orange-500" title="Da semana passada">
-                &#8594;
+              <span className="rounded-md bg-orange-400/10 px-1.5 py-0.5 text-[10px] text-orange-300/70">
+                anterior
               </span>
             )}
             {category && (
               <span
-                className="rounded px-1 py-0.5 text-[10px] font-medium text-white"
-                style={{ backgroundColor: category.color }}
+                className="rounded-md px-1.5 py-0.5 text-[10px] font-medium"
+                style={{
+                  backgroundColor: `${category.color}15`,
+                  color: category.color,
+                }}
               >
                 {category.name}
               </span>
@@ -83,7 +86,7 @@ export function TaskCard({ task, category }: TaskCardProps) {
         {/* Botão excluir */}
         <button
           onClick={() => deleteTask.mutate(task.id)}
-          className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-300 hover:text-red-500"
+          className="flex-shrink-0 rounded-lg p-1 opacity-0 transition-all group-hover:opacity-100 hover:bg-red-500/10 text-slate-600 hover:text-red-400"
           title="Excluir"
         >
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

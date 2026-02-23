@@ -32,12 +32,12 @@ export function AuthForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm border border-slate-200">
-        <h1 className="mb-1 text-2xl font-bold text-slate-900">
-          Week<span className="text-blue-600">Board</span>
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-sm glass rounded-3xl p-8">
+        <h1 className="mb-1 text-2xl font-bold text-white">
+          Week<span className="text-[var(--accent)]">Board</span>
         </h1>
-        <p className="mb-6 text-sm text-slate-500">
+        <p className="mb-8 text-sm text-slate-500">
           {isLogin ? "Entre na sua conta" : "Crie sua conta"}
         </p>
 
@@ -48,7 +48,7 @@ export function AuthForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-colors focus:border-[var(--accent)]/40 focus:bg-white/[0.07]"
           />
           <input
             type="password"
@@ -57,16 +57,16 @@ export function AuthForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-colors focus:border-[var(--accent)]/40 focus:bg-white/[0.07]"
           />
 
           {error && (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600">
+            <p className="rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2 text-xs text-red-300">
               {error}
             </p>
           )}
           {success && (
-            <p className="rounded-lg bg-green-50 px-3 py-2 text-xs text-green-600">
+            <p className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-xs text-emerald-300">
               {success}
             </p>
           )}
@@ -74,7 +74,7 @@ export function AuthForm() {
           <button
             type="submit"
             disabled={loading}
-            className="rounded-lg bg-blue-600 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+            className="mt-2 rounded-xl bg-[var(--accent)] py-3 text-sm font-semibold text-white transition-all hover:brightness-110 disabled:opacity-50"
           >
             {loading ? "..." : isLogin ? "Entrar" : "Criar conta"}
           </button>
@@ -86,7 +86,7 @@ export function AuthForm() {
             setError("");
             setSuccess("");
           }}
-          className="mt-4 w-full text-center text-xs text-slate-500 hover:text-blue-600"
+          className="mt-6 w-full text-center text-xs text-slate-600 transition-colors hover:text-[var(--accent)]"
         >
           {isLogin ? "Não tem conta? Crie uma" : "Já tem conta? Entre"}
         </button>
