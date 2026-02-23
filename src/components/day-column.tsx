@@ -12,9 +12,10 @@ interface DayColumnProps {
   tasks: Task[];
   categories: Category[];
   onEditTask: (task: Task) => void;
+  isDragActive?: boolean;
 }
 
-export function DayColumn({ day, tasks, categories, onEditTask }: DayColumnProps) {
+export function DayColumn({ day, tasks, categories, onEditTask, isDragActive }: DayColumnProps) {
   const isToday = getCurrentDayOfWeek() === day;
   const dayTasks = tasks.filter((t) => t.days.includes(day));
 
@@ -112,7 +113,7 @@ export function DayColumn({ day, tasks, categories, onEditTask }: DayColumnProps
         items={sortedTasks.map((t) => `${t.id}-${day}`)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-1 flex-col gap-2 max-h-[500px] sm:max-h-[420px] overflow-y-auto">
+        <div className={`flex flex-1 flex-col gap-2 ${isDragActive ? "" : "max-h-[500px] sm:max-h-[420px] overflow-y-auto"}`}>
           {sortedTasks.length === 0 ? (
             <p
               className="mt-8 text-center text-[11px]"

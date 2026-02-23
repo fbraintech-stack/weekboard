@@ -6,6 +6,7 @@ import {
   DragOverlay,
   PointerSensor,
   TouchSensor,
+  useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -25,6 +26,46 @@ import { useCategories } from "@/hooks/use-categories";
 import { useWeeklyReset } from "@/hooks/use-weekly-reset";
 
 const days: DayOfWeek[] = [1, 2, 3, 4, 5, 6, 7];
+
+function MobileDayTab({
+  day,
+  isSelected,
+  isDragActive,
+  onClick,
+}: {
+  day: DayOfWeek;
+  isSelected: boolean;
+  isDragActive: boolean;
+  onClick: () => void;
+}) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: `day-mobile-${day}`,
+    data: { day },
+  });
+
+  const highlighted = isOver && isDragActive;
+
+  return (
+    <button
+      ref={setNodeRef}
+      onClick={onClick}
+      className={`flex-shrink-0 rounded-[10px] px-4 py-2 text-xs font-semibold transition-all ${
+        highlighted ? "scale-110" : ""
+      }`}
+      style={{
+        background: highlighted
+          ? "var(--th-accent)"
+          : isSelected
+            ? "var(--th-accent)"
+            : "var(--th-surface)",
+        color: highlighted || isSelected ? "#ffffff" : "var(--th-text-faint)",
+        border: `1px solid ${highlighted || isSelected ? "var(--th-accent)" : "var(--th-border)"}`,
+      }}
+    >
+      {DAY_LABELS[day]}
+    </button>
+  );
+}
 
 export function WeekBoard() {
   const { selectedDay, setSelectedDay, filterCategory, setFilterCategory } =
@@ -66,7 +107,7 @@ export function WeekBoard() {
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } })
+    useSensor(TouchSensor, { activationConstraint: { delay: 500, tolerance: 5 } })
   );
 
   function handleDragStart(event: DragStartEvent) {
@@ -88,9 +129,12 @@ export function WeekBoard() {
     if (task.type !== "oneoff") return;
 
     let toDay: DayOfWeek | null = null;
+    const overId = over.id.toString();
 
-    if (over.id.toString().startsWith("day-")) {
-      toDay = Number(over.id.toString().replace("day-", "")) as DayOfWeek;
+    if (overId.startsWith("day-mobile-")) {
+      toDay = Number(overId.replace("day-mobile-", "")) as DayOfWeek;
+    } else if (overId.startsWith("day-")) {
+      toDay = Number(overId.replace("day-", "")) as DayOfWeek;
     } else {
       const overData = over.data.current as { task?: Task; fromDay?: DayOfWeek } | undefined;
       if (overData?.fromDay) {
@@ -108,6 +152,9 @@ export function WeekBoard() {
     if (newDays.length === 0) return;
 
     updateTaskDays.mutate({ id: task.id, days: newDays });
+
+    // No mobile, trocar a visualização para o dia de destino
+    setSelectedDay(toDay);
   }
 
   return (
@@ -205,23 +252,16 @@ export function WeekBoard() {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
-            {/* Seletor de dia — mobile */}
+            {/* Seletor de dia — mobile (droppable para drag entre dias) */}
             <div className="mb-4 flex gap-1.5 overflow-x-auto sm:hidden">
               {days.map((day) => (
-                <button
+                <MobileDayTab
                   key={day}
+                  day={day}
+                  isSelected={selectedDay === day}
+                  isDragActive={!!activeTask}
                   onClick={() => setSelectedDay(day)}
-                  className="flex-shrink-0 rounded-[10px] px-4 py-2 text-xs font-semibold transition-all"
-                  style={{
-                    background:
-                      selectedDay === day ? "var(--th-accent)" : "var(--th-surface)",
-                    color:
-                      selectedDay === day ? "#ffffff" : "var(--th-text-faint)",
-                    border: `1px solid ${selectedDay === day ? "var(--th-accent)" : "var(--th-border)"}`,
-                  }}
-                >
-                  {DAY_LABELS[day]}
-                </button>
+                />
               ))}
             </div>
 
@@ -234,6 +274,7 @@ export function WeekBoard() {
                   tasks={filteredWeekTasks}
                   categories={categories}
                   onEditTask={setEditingTask}
+                  isDragActive={!!activeTask}
                 />
               ))}
             </div>
@@ -245,6 +286,7 @@ export function WeekBoard() {
                 tasks={filteredWeekTasks}
                 categories={categories}
                 onEditTask={setEditingTask}
+                isDragActive={!!activeTask}
               />
             </div>
 
