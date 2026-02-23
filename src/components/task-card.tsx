@@ -38,7 +38,7 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
         isDraggable ? "cursor-grab active:cursor-grabbing" : ""
       } rounded-xl ${
         isDragging
-          ? "opacity-30 scale-95"
+          ? "opacity-30"
           : isCompleted
             ? "opacity-50"
             : "glass glass-hover"
