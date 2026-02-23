@@ -17,7 +17,7 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
   const toggleTask = useToggleTask();
   const deleteTask = useDeleteTask();
   const isCompleted = task.completed_days?.includes(day) ?? false;
-  const isDraggable = task.type === "oneoff";
+  const isDraggable = task.type !== "scheduled";
 
   const {
     attributes,
