@@ -35,7 +35,6 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    touchAction: isDraggable ? ("none" as const) : undefined,
   };
 
   return (
@@ -48,7 +47,7 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
         isDraggable ? "cursor-grab active:cursor-grabbing" : ""
       } rounded-xl ${
         isDragging
-          ? "z-50 scale-105"
+          ? "opacity-0"
           : isCompleted
             ? "opacity-50"
             : "glass glass-hover"
@@ -64,8 +63,8 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
         />
       )}
 
-      {/* Botões hover — canto superior direito */}
-      <div className="absolute -right-1.5 -top-1.5 z-10 flex gap-1 opacity-0 transition-all group-hover:opacity-100">
+      {/* Botões hover — canto superior direito (pointer-events-none quando invisíveis para não interceptar toques) */}
+      <div className="absolute -right-1.5 -top-1.5 z-10 flex gap-1 opacity-0 pointer-events-none transition-all group-hover:opacity-100 group-hover:pointer-events-auto">
         {/* Editar */}
         <button
           onPointerDown={(e) => e.stopPropagation()}
