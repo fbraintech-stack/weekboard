@@ -39,7 +39,7 @@ export function DayColumn({ day, tasks, categories, onEditTask }: DayColumnProps
       ref={setNodeRef}
       role="region"
       aria-label={`${DAY_LABELS[day]} — ${completedCount} de ${totalCount} concluídas`}
-      className={`flex min-h-[220px] flex-col rounded-xl p-3 transition-all duration-300 sm:min-h-[350px] ${
+      className={`flex min-h-[220px] min-w-0 flex-col overflow-hidden rounded-xl p-3 sm:min-h-[350px] ${
         isOver
           ? "glass ring-2 ring-[var(--th-accent)] shadow-lg"
           : isToday

@@ -34,15 +34,18 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
       ref={setNodeRef}
       {...attributes}
       {...(isDraggable ? listeners : {})}
-      className={`group relative border transition-all duration-200 ${
+      className={`group relative border rounded-xl ${
         isDraggable ? "cursor-grab active:cursor-grabbing" : ""
-      } rounded-xl ${
+      } ${
         isDragging
           ? "opacity-30"
           : isCompleted
             ? "opacity-50"
             : "glass glass-hover"
       }`}
+      style={{
+        transition: "opacity 0.2s, background 0.2s, border-color 0.2s",
+      }}
       data-completed={isCompleted || undefined}
     >
       {/* Linha de cor da categoria no topo */}
