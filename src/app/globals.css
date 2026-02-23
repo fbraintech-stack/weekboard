@@ -1,47 +1,201 @@
 @import "tailwindcss";
 
-:root {
-  --background: #08090d;
-  --foreground: #e2e8f0;
-  --glass: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-hover: rgba(255, 255, 255, 0.07);
-  --accent: #818cf8;
-  --accent-muted: rgba(129, 140, 248, 0.15);
+/* ============================================
+   THEME SYSTEM — Dark Glass + Apple Light
+   ============================================ */
+
+/* --- Dark Glass Theme (default) --- */
+:root,
+[data-theme="dark"] {
+  --th-bg: #08090d;
+  --th-bg-gradient: linear-gradient(145deg, #08090d 0%, #0f1219 40%, #111827 100%);
+
+  --th-text: #f1f5f9;
+  --th-text-sub: #94a3b8;
+  --th-text-faint: #64748b;
+  --th-text-muted: #475569;
+  --th-text-ghost: #334155;
+
+  --th-surface: rgba(255, 255, 255, 0.04);
+  --th-surface-hover: rgba(255, 255, 255, 0.07);
+  --th-surface-raised: rgba(255, 255, 255, 0.08);
+
+  --th-border: rgba(255, 255, 255, 0.08);
+  --th-border-strong: rgba(255, 255, 255, 0.15);
+  --th-border-input: rgba(255, 255, 255, 0.10);
+  --th-border-input-focus: rgba(129, 140, 248, 0.4);
+
+  --th-overlay: rgba(0, 0, 0, 0.6);
+  --th-shadow: none;
+  --th-shadow-card: none;
+  --th-shadow-elevated: none;
+
+  --th-accent: #818cf8;
+  --th-accent-muted: rgba(129, 140, 248, 0.15);
+  --th-accent-glow: 0 0 20px rgba(129, 140, 248, 0.08);
+
+  --th-input-bg: rgba(255, 255, 255, 0.05);
+  --th-input-bg-focus: rgba(255, 255, 255, 0.07);
+  --th-input-placeholder: #475569;
+
+  --th-check-border: rgba(52, 211, 153, 0.5);
+  --th-check-bg: rgba(52, 211, 153, 0.2);
+  --th-check-icon: #6ee7b7;
+  --th-check-progress: rgba(52, 211, 153, 0.5);
+
+  --th-badge-pontual: rgba(251, 191, 36, 0.1);
+  --th-badge-pontual-text: rgba(252, 211, 77, 0.7);
+  --th-badge-anterior: rgba(251, 146, 60, 0.1);
+  --th-badge-anterior-text: rgba(253, 186, 116, 0.7);
+  --th-badge-scheduled: rgba(129, 140, 248, 0.12);
+  --th-badge-scheduled-text: rgba(167, 139, 250, 0.8);
+
+  --th-error-bg: rgba(239, 68, 68, 0.1);
+  --th-error-border: rgba(239, 68, 68, 0.2);
+  --th-error-text: #fca5a5;
+  --th-success-bg: rgba(16, 185, 129, 0.1);
+  --th-success-border: rgba(16, 185, 129, 0.2);
+  --th-success-text: #6ee7b7;
+
+  --th-scrollbar: rgba(255, 255, 255, 0.1);
+  --th-scrollbar-hover: rgba(255, 255, 255, 0.2);
+
+  --th-btn-delete-bg: rgba(239, 68, 68, 0.1);
+  --th-btn-delete-text: #475569;
+  --th-btn-delete-hover: #f87171;
+  --th-btn-close-bg: #1a1d27;
 }
 
+/* --- Apple Light Theme (HIG-compliant) --- */
+[data-theme="apple"] {
+  /* HIG: systemGroupedBackground */
+  --th-bg: #F2F2F7;
+  --th-bg-gradient: #F2F2F7;
+
+  /* HIG: label hierarchy — primary, secondary, tertiary, quaternary */
+  --th-text: #1C1C1E;
+  --th-text-sub: #3A3A3C;
+  --th-text-faint: #48484A;
+  --th-text-muted: #8E8E93;
+  --th-text-ghost: #C7C7CC;
+
+  /* HIG: secondarySystemGroupedBackground + systemBackground */
+  --th-surface: #FFFFFF;
+  --th-surface-hover: #F9F9FB;
+  --th-surface-raised: #FFFFFF;
+
+  /* HIG: separator / opaqueSeparator */
+  --th-border: rgba(60, 60, 67, 0.12);
+  --th-border-strong: rgba(60, 60, 67, 0.29);
+  --th-border-input: rgba(60, 60, 67, 0.18);
+  --th-border-input-focus: rgba(0, 122, 255, 0.5);
+
+  --th-overlay: rgba(0, 0, 0, 0.3);
+  /* HIG: material shadows — light, subtle, layered */
+  --th-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --th-shadow-card: 0 0.5px 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.04), 0 3px 8px rgba(0, 0, 0, 0.04);
+  --th-shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* HIG: systemBlue */
+  --th-accent: #007AFF;
+  --th-accent-muted: rgba(0, 122, 255, 0.08);
+  --th-accent-glow: 0 0 0 4px rgba(0, 122, 255, 0.12);
+
+  /* HIG: tertiarySystemFill */
+  --th-input-bg: rgba(118, 118, 128, 0.12);
+  --th-input-bg-focus: rgba(118, 118, 128, 0.16);
+  --th-input-placeholder: rgba(60, 60, 67, 0.3);
+
+  /* HIG: systemGreen */
+  --th-check-border: #34C759;
+  --th-check-bg: rgba(52, 199, 89, 0.12);
+  --th-check-icon: #248A3D;
+  --th-check-progress: #34C759;
+
+  /* HIG: systemOrange */
+  --th-badge-pontual: rgba(255, 149, 0, 0.1);
+  --th-badge-pontual-text: #C93400;
+  --th-badge-anterior: rgba(255, 149, 0, 0.08);
+  --th-badge-anterior-text: #C93400;
+  /* HIG: systemBlue for scheduled */
+  --th-badge-scheduled: rgba(0, 122, 255, 0.08);
+  --th-badge-scheduled-text: #007AFF;
+
+  /* HIG: systemRed / systemGreen */
+  --th-error-bg: rgba(255, 59, 48, 0.06);
+  --th-error-border: rgba(255, 59, 48, 0.12);
+  --th-error-text: #FF3B30;
+  --th-success-bg: rgba(52, 199, 89, 0.06);
+  --th-success-border: rgba(52, 199, 89, 0.12);
+  --th-success-text: #248A3D;
+
+  --th-scrollbar: rgba(0, 0, 0, 0.08);
+  --th-scrollbar-hover: rgba(0, 0, 0, 0.18);
+
+  --th-btn-delete-bg: rgba(255, 59, 48, 0.06);
+  --th-btn-delete-text: #8E8E93;
+  --th-btn-delete-hover: #FF3B30;
+  --th-btn-close-bg: #F2F2F7;
+}
+
+/* ============================================
+   TAILWIND THEME TOKENS
+   ============================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--th-bg);
+  --color-foreground: var(--th-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* ============================================
+   BASE STYLES
+   ============================================ */
 body {
-  background: linear-gradient(145deg, #08090d 0%, #0f1219 40%, #111827 100%);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--th-bg-gradient);
+  color: var(--th-text);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
+  transition: background 0.4s ease, color 0.3s ease;
 }
 
-/* Glass utilities */
+/* ============================================
+   GLASS UTILITY — adapts per theme
+   ============================================ */
 .glass {
-  background: var(--glass);
+  background: var(--th-surface);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--th-border);
+  box-shadow: var(--th-shadow);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass-hover:hover {
-  background: var(--glass-hover);
+  background: var(--th-surface-hover);
 }
 
-/* Subtle glow for accent elements */
+/* Apple theme: clean white cards with subtle shadows — no heavy blur */
+[data-theme="apple"] .glass {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: rgba(60, 60, 67, 0.08);
+  box-shadow: var(--th-shadow-card);
+}
+
+[data-theme="apple"] .glass-hover:hover {
+  background: #F9F9FB;
+}
+
+/* Glow accent */
 .glow-accent {
-  box-shadow: 0 0 20px rgba(129, 140, 248, 0.08);
+  box-shadow: var(--th-accent-glow);
 }
 
-/* Smooth scrollbar */
+/* ============================================
+   SCROLLBAR
+   ============================================ */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -52,10 +206,72 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--th-scrollbar);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--th-scrollbar-hover);
+}
+
+/* ============================================
+   APPLE-SPECIFIC REFINEMENTS (HIG)
+   ============================================ */
+[data-theme="apple"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Apple: HIG focus ring — 4px systemBlue ring */
+[data-theme="apple"] *:focus-visible {
+  outline: 4px solid rgba(0, 122, 255, 0.25);
+  outline-offset: 1px;
+  border-radius: inherit;
+}
+
+/* Apple: selection color */
+[data-theme="apple"] ::selection {
+  background: rgba(0, 122, 255, 0.2);
+  color: inherit;
+}
+
+/* Apple: placeholder styling */
+[data-theme="apple"] input::placeholder,
+[data-theme="apple"] textarea::placeholder {
+  color: rgba(60, 60, 67, 0.3);
+}
+
+/* Apple: button active state — slight scale like iOS */
+[data-theme="apple"] button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Apple: header bar — frosted glass like iOS navigation bar */
+[data-theme="apple"] header.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+  box-shadow: none;
+}
+
+/* Apple: modal backdrop — iOS-style blur */
+[data-theme="apple"] [style*="backdrop-filter: blur(8px)"] {
+  background: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Apple: softer border-radius on day columns */
+[data-theme="apple"] .glow-accent {
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
+}
+
+/* Smooth transitions for theme switching */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background 0.4s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }

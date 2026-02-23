@@ -87,3 +87,24 @@ export function getPreviousWeekYear(): string {
   prevMonday.setDate(monday.getDate() - 7);
   return getWeekYear(prevMonday);
 }
+
+/**
+ * Retorna o dia da semana (1=Seg, 7=Dom) de uma string de data "YYYY-MM-DD"
+ */
+export function getDayOfWeekFromDate(dateStr: string): DayOfWeek {
+  const date = new Date(dateStr + "T12:00:00");
+  const day = date.getDay();
+  return (day === 0 ? 7 : day) as DayOfWeek;
+}
+
+/**
+ * Formata "2026-02-25" para "25 Fev"
+ */
+export function formatScheduledDate(dateStr: string): string {
+  const date = new Date(dateStr + "T12:00:00");
+  const months = [
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez",
+  ];
+  return `${date.getDate()} ${months[date.getMonth()]}`;
+}

@@ -33,11 +33,18 @@ export function AuthForm() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-sm glass rounded-3xl p-8">
-        <h1 className="mb-1 text-2xl font-bold text-white">
-          Week<span className="text-[var(--accent)]">Board</span>
+      <div
+        className="w-full max-w-sm rounded-2xl p-8"
+        style={{
+          background: "var(--th-surface-raised)",
+          border: "1px solid var(--th-border)",
+          boxShadow: "var(--th-shadow-elevated)",
+        }}
+      >
+        <h1 className="mb-1 text-2xl font-bold" style={{ color: "var(--th-text)" }}>
+          Week<span style={{ color: "var(--th-accent)" }}>Board</span>
         </h1>
-        <p className="mb-8 text-sm text-slate-500">
+        <p className="mb-8 text-sm" style={{ color: "var(--th-text-faint)" }}>
           {isLogin ? "Entre na sua conta" : "Crie sua conta"}
         </p>
 
@@ -48,7 +55,12 @@ export function AuthForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-colors focus:border-[var(--accent)]/40 focus:bg-white/[0.07]"
+            className="rounded-[10px] px-4 py-3 text-sm outline-none transition-colors"
+            style={{
+              background: "var(--th-input-bg)",
+              border: "1px solid var(--th-border-input)",
+              color: "var(--th-text)",
+            }}
           />
           <input
             type="password"
@@ -57,16 +69,35 @@ export function AuthForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-colors focus:border-[var(--accent)]/40 focus:bg-white/[0.07]"
+            className="rounded-[10px] px-4 py-3 text-sm outline-none transition-colors"
+            style={{
+              background: "var(--th-input-bg)",
+              border: "1px solid var(--th-border-input)",
+              color: "var(--th-text)",
+            }}
           />
 
           {error && (
-            <p className="rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2 text-xs text-red-300">
+            <p
+              className="rounded-xl px-3 py-2 text-xs"
+              style={{
+                background: "var(--th-error-bg)",
+                border: "1px solid var(--th-error-border)",
+                color: "var(--th-error-text)",
+              }}
+            >
               {error}
             </p>
           )}
           {success && (
-            <p className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-xs text-emerald-300">
+            <p
+              className="rounded-xl px-3 py-2 text-xs"
+              style={{
+                background: "var(--th-success-bg)",
+                border: "1px solid var(--th-success-border)",
+                color: "var(--th-success-text)",
+              }}
+            >
               {success}
             </p>
           )}
@@ -74,7 +105,8 @@ export function AuthForm() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 rounded-xl bg-[var(--accent)] py-3 text-sm font-semibold text-white transition-all hover:brightness-110 disabled:opacity-50"
+            className="mt-2 rounded-[10px] py-3 text-sm font-semibold transition-all hover:brightness-105 disabled:opacity-50"
+            style={{ background: "var(--th-accent)", color: "#ffffff" }}
           >
             {loading ? "..." : isLogin ? "Entrar" : "Criar conta"}
           </button>
@@ -86,7 +118,8 @@ export function AuthForm() {
             setError("");
             setSuccess("");
           }}
-          className="mt-6 w-full text-center text-xs text-slate-600 transition-colors hover:text-[var(--accent)]"
+          className="mt-6 w-full text-center text-xs transition-colors"
+          style={{ color: "var(--th-text-muted)" }}
         >
           {isLogin ? "Não tem conta? Crie uma" : "Já tem conta? Entre"}
         </button>
