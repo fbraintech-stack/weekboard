@@ -6,9 +6,11 @@ import { DAY_LABELS } from "@/types/task";
 import { DayColumn } from "./day-column";
 import { Header } from "./header";
 import { CreateTaskForm } from "./create-task-form";
+import { ResetNotification } from "./reset-notification";
 import { useWeekBoardStore } from "@/lib/store";
 import { useTasks } from "@/hooks/use-tasks";
 import { useCategories } from "@/hooks/use-categories";
+import { useWeeklyReset } from "@/hooks/use-weekly-reset";
 
 const days: DayOfWeek[] = [1, 2, 3, 4, 5, 6, 7];
 
@@ -19,6 +21,7 @@ export function WeekBoard() {
 
   const { data: tasks = [], isLoading: tasksLoading } = useTasks();
   const { data: categories = [] } = useCategories();
+  const { resetResult, isResetting, dismissNotification } = useWeeklyReset();
 
   // Filtrar por categoria se selecionada
   const filteredTasks = filterCategory
@@ -34,6 +37,18 @@ export function WeekBoard() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header onCreateTask={() => setShowCreateForm(true)} />
+
+      {/* Notificação de reset semanal */}
+      {resetResult && (
+        <div className="pt-4">
+          <ResetNotification
+            recurrentReset={resetResult.recurrentReset}
+            carryOver={resetResult.carryOver}
+            removed={resetResult.removed}
+            onDismiss={dismissNotification}
+          />
+        </div>
+      )}
 
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6">
         {/* Filtro por categorias */}
@@ -71,9 +86,11 @@ export function WeekBoard() {
           </div>
         )}
 
-        {tasksLoading ? (
+        {tasksLoading || isResetting ? (
           <div className="flex h-64 items-center justify-center">
-            <p className="text-sm text-slate-400">Carregando tarefas...</p>
+            <p className="text-sm text-slate-400">
+              {isResetting ? "Preparando nova semana..." : "Carregando tarefas..."}
+            </p>
           </div>
         ) : (
           <>

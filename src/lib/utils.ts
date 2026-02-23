@@ -77,3 +77,13 @@ export function getWeekDateRange(): string {
   }
   return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${year}`;
 }
+
+/**
+ * Retorna o week_year da semana anterior (ex: "2026-W09")
+ */
+export function getPreviousWeekYear(): string {
+  const monday = getMondayOfCurrentWeek();
+  const prevMonday = new Date(monday);
+  prevMonday.setDate(monday.getDate() - 7);
+  return getWeekYear(prevMonday);
+}
