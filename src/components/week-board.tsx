@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   DndContext,
-  DragOverlay,
   PointerSensor,
   TouchSensor,
   pointerWithin,
@@ -12,6 +12,7 @@ import {
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
+  type DragMoveEvent,
 } from "@dnd-kit/core";
 import type { DayOfWeek, Task } from "@/types/task";
 import { DAY_LABELS } from "@/types/task";
@@ -74,6 +75,11 @@ export function WeekBoard() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const { data: tasks = [], isLoading: tasksLoading } = useTasks();
   const { data: categories = [] } = useCategories();
@@ -114,6 +120,30 @@ export function WeekBoard() {
   function handleDragStart(event: DragStartEvent) {
     const { task } = event.active.data.current as { task: Task; fromDay: DayOfWeek };
     setActiveTask(task);
+
+    // Calcular offset entre o cursor e o topo-esquerdo do card
+    const pointer = event.activatorEvent as PointerEvent;
+    const rect = event.active.rect.current.initial;
+    if (rect) {
+      dragOffset.current = {
+        x: pointer.clientX - rect.left,
+        y: pointer.clientY - rect.top,
+      };
+    }
+
+    // Posicionar overlay na posição inicial do card
+    if (overlayRef.current && rect) {
+      overlayRef.current.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
+    }
+  }
+
+  function handleDragMove(event: DragMoveEvent) {
+    if (overlayRef.current) {
+      const pointer = event.activatorEvent as PointerEvent;
+      const x = pointer.clientX + event.delta.x - dragOffset.current.x;
+      const y = pointer.clientY + event.delta.y - dragOffset.current.y;
+      overlayRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
   }
 
   function handleDragCancel() {
@@ -256,6 +286,7 @@ export function WeekBoard() {
             sensors={sensors}
             collisionDetection={pointerWithin}
             onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
           >
@@ -294,24 +325,6 @@ export function WeekBoard() {
                 onEditTask={setEditingTask}
               />
             </div>
-
-            {/* Drag overlay */}
-            <DragOverlay dropAnimation={null}>
-              {activeTask && (
-                <div
-                  className="rounded-xl glass p-2.5 pl-3.5"
-                  style={{
-                    boxShadow: "var(--th-shadow-elevated)",
-                    width: "max-content",
-                    maxWidth: "180px",
-                  }}
-                >
-                  <p className="text-xs" style={{ color: "var(--th-text)" }}>
-                    {activeTask.title}
-                  </p>
-                </div>
-              )}
-            </DragOverlay>
 
             {/* Barra de progresso semanal */}
             <div className="mt-6 glass rounded-xl p-4" role="status" aria-label={`Progresso semanal: ${progressPercent}%`}>
@@ -365,6 +378,38 @@ export function WeekBoard() {
           task={editingTask}
           onClose={() => setEditingTask(null)}
         />
+      )}
+
+      {/* Drag overlay customizado — portal direto no body, sem @dnd-kit DragOverlay */}
+      {mounted && createPortal(
+        <div
+          ref={overlayRef}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+            zIndex: 9999,
+            willChange: "transform",
+          }}
+        >
+          {activeTask && (
+            <div
+              className="rounded-xl p-2.5 pl-3.5"
+              style={{
+                background: "var(--th-surface-raised)",
+                border: "1px solid var(--th-border)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+                maxWidth: "180px",
+              }}
+            >
+              <p className="text-xs font-medium" style={{ color: "var(--th-text)" }}>
+                {activeTask.title}
+              </p>
+            </div>
+          )}
+        </div>,
+        document.body
       )}
     </div>
   );
