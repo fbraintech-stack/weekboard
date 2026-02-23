@@ -35,6 +35,7 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    touchAction: isDraggable ? ("none" as const) : undefined,
   };
 
   return (
