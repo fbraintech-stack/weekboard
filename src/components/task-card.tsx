@@ -1,7 +1,6 @@
 "use client";
 
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useDraggable } from "@dnd-kit/core";
 import type { Task, Category, DayOfWeek } from "@/types/task";
 import { useToggleTask, useDeleteTask } from "@/hooks/use-tasks";
 import { formatScheduledDate } from "@/lib/utils";
@@ -23,36 +22,27 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
     attributes,
     listeners,
     setNodeRef,
-    transform,
-    transition,
     isDragging,
-  } = useSortable({
+  } = useDraggable({
     id: `${task.id}-${day}`,
     data: { task, fromDay: day },
     disabled: !isDraggable,
   });
 
-  const style = {
-    transform: isDragging ? undefined : CSS.Transform.toString(transform),
-    transition: isDragging ? "none" : transition,
-  };
-
   return (
     <div
       ref={setNodeRef}
-      style={style}
       {...attributes}
       {...(isDraggable ? listeners : {})}
       className={`group relative border transition-all duration-200 ${
         isDraggable ? "cursor-grab active:cursor-grabbing" : ""
       } rounded-xl ${
         isDragging
-          ? "opacity-0"
+          ? "opacity-30 scale-95"
           : isCompleted
             ? "opacity-50"
             : "glass glass-hover"
       }`}
-      data-dragging={isDragging || undefined}
       data-completed={isCompleted || undefined}
     >
       {/* Linha de cor da categoria no topo */}
@@ -221,11 +211,6 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
 
       {/* Estilos inline para estados especiais */}
       <style jsx>{`
-        [data-dragging="true"] {
-          box-shadow: var(--th-shadow-elevated);
-          border-color: var(--th-accent);
-          background: var(--th-surface-raised);
-        }
         [data-completed="true"] {
           border-color: transparent;
           background: var(--th-surface);
