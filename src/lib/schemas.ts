@@ -6,6 +6,8 @@ export const createTaskSchema = z.object({
   days: z.array(z.number().min(1).max(7)).min(1, "Selecione pelo menos 1 dia"),
   category_id: z.string().uuid().nullable(),
   scheduled_date: z.string().nullable().optional(),
+  start_time: z.string().nullable().optional(),
+  end_time: z.string().nullable().optional(),
 });
 
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
@@ -16,6 +18,8 @@ export const updateTaskSchema = z.object({
   days: z.array(z.number().min(1).max(7)).min(1, "Selecione pelo menos 1 dia"),
   category_id: z.string().uuid().nullable(),
   scheduled_date: z.string().nullable().optional(),
+  start_time: z.string().nullable().optional(),
+  end_time: z.string().nullable().optional(),
 });
 
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;

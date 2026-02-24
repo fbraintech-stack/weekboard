@@ -25,6 +25,12 @@ export function EditTaskForm({ task, onClose }: EditTaskFormProps) {
   const [scheduledDate, setScheduledDate] = useState(
     task.scheduled_date || ""
   );
+  const [startTime, setStartTime] = useState(
+    task.start_time?.slice(0, 5) || ""
+  );
+  const [endTime, setEndTime] = useState(
+    task.end_time?.slice(0, 5) || ""
+  );
   const [error, setError] = useState("");
 
   const updateTask = useUpdateTask();
@@ -71,6 +77,8 @@ export function EditTaskForm({ task, onClose }: EditTaskFormProps) {
       days: selectedDays,
       category_id: categoryId,
       scheduled_date: type === "scheduled" ? scheduledDate : null,
+      start_time: startTime || null,
+      end_time: endTime || null,
     });
 
     if (!result.success) {
@@ -283,6 +291,45 @@ export function EditTaskForm({ task, onClose }: EditTaskFormProps) {
               </div>
             </div>
           )}
+
+          {/* Horário (opcional) */}
+          <div>
+            <label
+              className="mb-2 block text-[11px] font-medium uppercase tracking-widest"
+              style={{ color: "var(--th-text-faint)" }}
+            >
+              Horário (opcional)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="flex-1 rounded-[10px] px-3 py-2.5 text-sm outline-none transition-colors"
+                style={{
+                  background: "var(--th-input-bg)",
+                  border: "1px solid var(--th-border-input)",
+                  color: "var(--th-text)",
+                  colorScheme: "inherit",
+                }}
+                placeholder="Início"
+              />
+              <span className="flex items-center text-xs" style={{ color: "var(--th-text-muted)" }}>—</span>
+              <input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="flex-1 rounded-[10px] px-3 py-2.5 text-sm outline-none transition-colors"
+                style={{
+                  background: "var(--th-input-bg)",
+                  border: "1px solid var(--th-border-input)",
+                  color: "var(--th-text)",
+                  colorScheme: "inherit",
+                }}
+                placeholder="Fim"
+              />
+            </div>
+          </div>
 
           {/* Categoria */}
           <div>

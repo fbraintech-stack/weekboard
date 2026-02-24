@@ -17,11 +17,18 @@ export function DayColumn({ day, tasks, categories, onEditTask }: DayColumnProps
   const isToday = getCurrentDayOfWeek() === day;
   const dayTasks = tasks.filter((t) => t.days.includes(day));
 
-  // Ordenar: não-concluídas primeiro, concluídas no final
+  // Ordenar: sem horário (não concluídas) → com horário (não concluídas, por start_time) → concluídas
   const sortedTasks = [...dayTasks].sort((a, b) => {
     const aCompleted = a.completed_days?.includes(day) ? 1 : 0;
     const bCompleted = b.completed_days?.includes(day) ? 1 : 0;
-    return aCompleted - bCompleted;
+    if (aCompleted !== bCompleted) return aCompleted - bCompleted;
+
+    const aHasTime = a.start_time ? 1 : 0;
+    const bHasTime = b.start_time ? 1 : 0;
+    if (aHasTime !== bHasTime) return aHasTime - bHasTime;
+
+    if (a.start_time && b.start_time) return a.start_time.localeCompare(b.start_time);
+    return 0;
   });
 
   const completedCount = dayTasks.filter((t) =>

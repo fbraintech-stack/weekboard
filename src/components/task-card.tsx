@@ -3,7 +3,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import type { Task, Category, DayOfWeek } from "@/types/task";
 import { useToggleTask, useDeleteTask } from "@/hooks/use-tasks";
-import { formatScheduledDate } from "@/lib/utils";
+import { formatScheduledDate, formatTimeRange } from "@/lib/utils";
 
 interface TaskCardProps {
   task: Task;
@@ -165,6 +165,17 @@ export function TaskCard({ task, day, category, onEdit }: TaskCardProps) {
 
         {/* Badges — linha inferior */}
         <div className="mt-1.5 flex items-center gap-1 pl-6">
+          {formatTimeRange(task.start_time, task.end_time) && (
+            <span
+              className="rounded px-1 py-px text-[9px] font-medium"
+              style={{
+                background: "var(--th-accent-muted)",
+                color: "var(--th-accent)",
+              }}
+            >
+              {formatTimeRange(task.start_time, task.end_time)}
+            </span>
+          )}
           {task.type === "oneoff" && (
             <span
               className="rounded px-1 py-px text-[9px]"

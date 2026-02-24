@@ -81,6 +81,8 @@ export function useWeeklyReset() {
           week_year: currentWeek,
           carry_over: false,
           scheduled_date: null,
+          start_time: task.start_time,
+          end_time: task.end_time,
         });
         recurrentReset++;
       } else if (task.type === "oneoff") {
@@ -99,6 +101,8 @@ export function useWeeklyReset() {
             week_year: currentWeek,
             carry_over: true,
             scheduled_date: null,
+            start_time: task.start_time,
+            end_time: task.end_time,
           });
           carryOver++;
         }
