@@ -31,6 +31,8 @@ export interface Task {
   week_year: string;
   carry_over: boolean;
   scheduled_date: string | null;
+  start_time: string | null;
+  end_time: string | null;
   created_at: string;
   updated_at: string;
 }

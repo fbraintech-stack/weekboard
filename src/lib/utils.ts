@@ -100,6 +100,16 @@ export function getDayOfWeekFromDate(dateStr: string): DayOfWeek {
 /**
  * Formata "2026-02-25" para "25 Fev"
  */
+/**
+ * Formata intervalo de horário: "08:30:00" + "09:30:00" → "08:30 - 09:30"
+ */
+export function formatTimeRange(start: string | null, end: string | null): string | null {
+  if (!start) return null;
+  const s = start.slice(0, 5);
+  if (!end) return s;
+  return `${s} - ${end.slice(0, 5)}`;
+}
+
 export function formatScheduledDate(dateStr: string): string {
   const date = new Date(dateStr + "T12:00:00");
   const months = [

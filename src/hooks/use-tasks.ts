@@ -48,6 +48,8 @@ export function useCreateTask() {
         .insert({
           ...input,
           scheduled_date: input.scheduled_date || null,
+          start_time: input.start_time || null,
+          end_time: input.end_time || null,
           user_id: user.id,
           week_year: taskWeekYear,
           completed_days: [],
